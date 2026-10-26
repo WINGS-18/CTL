@@ -11,7 +11,6 @@ namespace ctl {
         std::size_t m_rows;
         std::size_t m_cols;
     
-    public:
 
     public:
         flat_array(std::size_t rows, std::size_t cols);
