@@ -116,10 +116,6 @@ namespace ctl {
     template<typename T>
     T& ring_buffer<T>::operator[] (std::size_t index) {
         auto usableIndex = (m_head + index) % m_data.size();
-        
-        if(usableIndex < 0 || usableIndex >= m_data.capacity()) {
-            return m_data[0];   //returns head data(temporary fix, untill I learn error handling)
-        }
 
         return m_data[usableIndex];
     }
@@ -128,10 +124,6 @@ namespace ctl {
     const T& ring_buffer<T>::operator[] (std::size_t index) const {
         auto usableIndex = (m_head + index) % m_data.size();
         
-        if(usableIndex < 0 || usableIndex >= m_data.capacity()) {
-            return m_data[0];   //returns head data(temporary fix, untill I learn error handling)
-        }
-
         return m_data[usableIndex];
     }
 
