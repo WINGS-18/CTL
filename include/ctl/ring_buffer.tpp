@@ -26,6 +26,11 @@ namespace ctl {
     }
 
     template<typename T>
+    std::size_t ring_buffer<T>::capacity() const noexcept {
+        return m_data.capacity();
+    }
+
+    template<typename T>
     std::size_t ring_buffer<T>::movePointers(std::size_t pointer, std::size_t size) noexcept {
         pointer = (pointer + size) % (m_data.size());   //increases the volume of the valid range (tail -> head).
 

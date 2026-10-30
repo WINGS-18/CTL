@@ -20,8 +20,8 @@ namespace ctl {
         ring_buffer(std::size_t reserveSize);
         ring_buffer(std::size_t initSize, std::size_t reserveSize);
 
-        
         std::size_t size() const noexcept;
+        std::size_t capacity() const noexcept;
         
         std::size_t movePointers(std::size_t pointer, std::size_t size) noexcept;
         void reserveBack(std::size_t size) noexcept;
