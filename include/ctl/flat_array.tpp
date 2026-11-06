@@ -3,6 +3,25 @@
 namespace ctl {
 
     template<typename T>
+    flat_array<T>::flat_array(std::initializer_list<std::initializer_list<T>> list) {
+        std::size_t rows = list.size();
+        std::size_t cols = list.begin()->size();
+        m_rows = rows;
+        m_cols = cols;
+
+        m_data.resize(rows * cols);
+        int i = 0;
+        for(const auto& row : list) {
+            int j = 0;
+            for(const auto& val : row) {
+                (*this)(j, i) = val;
+                j++;
+            }
+            i++;
+        }
+    }
+
+    template<typename T>
     flat_array<T>::flat_array(std::size_t rows, std::size_t cols)
         : m_data(rows * cols), m_rows(rows), m_cols(cols) {}
 

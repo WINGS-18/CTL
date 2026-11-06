@@ -13,6 +13,7 @@ namespace ctl {
     
 
     public:
+        flat_array(std::initializer_list<std::initializer_list<T>> list);
         flat_array(std::size_t rows, std::size_t cols);
         flat_array(std::size_t rows, std::size_t cols, const T& completeInitialize);
         
