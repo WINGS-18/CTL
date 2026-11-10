@@ -3,8 +3,8 @@
 #include <iostream>
 namespace ctl {
     
-    template<typename _Key, typename _Val, std::size_t _Size>
-    static_flat_map<_Key, _Val, _Size>::static_flat_map(std::initializer_list<pair> list) {
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    static_flat_map<KeyType, ValueType, Size>::static_flat_map(std::initializer_list<pair> list) {
         std::size_t i = 0;
         
         for(auto& couple : list) {
@@ -29,8 +29,8 @@ namespace ctl {
 
     }
     
-    template<typename _Key, typename _Val, std::size_t _Size>
-    inline _Val& static_flat_map<_Key, _Val, _Size>::operator[] (_Key key) {
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    inline ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (KeyType key) {
         auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
         
         if(foundKey != m_keys.end() && *foundKey == key) {
@@ -40,8 +40,8 @@ namespace ctl {
         
     }
     
-    template<typename _Key, typename _Val, std::size_t _Size>
-    inline static_flat_map<_Key, _Val, _Size>::pair static_flat_map<_Key, _Val, _Size>::at(std::size_t index) {
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    inline static_flat_map<KeyType, ValueType, Size>::pair static_flat_map<KeyType, ValueType, Size>::at(std::size_t index) {
         return {m_keys[index], m_values[index]};
     }
 
