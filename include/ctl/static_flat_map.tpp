@@ -1,6 +1,6 @@
 #include "ctl/static_flat_map.hpp"
 #include <algorithm>
-#include <iostream>
+
 namespace ctl {
     
     template<typename KeyType, typename ValueType, std::size_t Size>
