@@ -21,17 +21,17 @@ namespace ctl {
         }
         
     private:
-        void setEndCharacters() {
+        void setEndCharacters() noexcept {
             //loops through the buffer and inserts "\n" at exact end of the width sizes
             //it is indication that row ends.
             for(std::size_t i = 0; i < m_rows; i++) {
-                m_data[(i * (m_cols + 1)) + m_cols] = '\n';
+                (*this)(i, m_cols) = '\n';
             }
         }
 
     public:
-        inline char& operator() (int x, int y) {
-            return m_data[(y * (m_cols + 1)) + x];
+        inline char& operator() (std::size_t row, std::size_t col) {
+            return m_data[(row * (m_cols + 1)) + col];
         }
     };
     
