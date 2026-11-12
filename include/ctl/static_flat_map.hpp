@@ -20,8 +20,17 @@ namespace ctl {
     public:
         static_flat_map(std::initializer_list<pair> list);
 
-        inline ValType& operator[] (KeyType key);
+        inline ValType& operator[] (const KeyType& key);
         inline pair at(std::size_t index);
+
+    public:
+        static_flat_map(const static_flat_map&) = default;
+        static_flat_map& operator= (const static_flat_map&) = default;
+    
+        static_flat_map(static_flat_map&&) = default;
+        static_flat_map& operator= (static_flat_map&&) = default;
+    
+        ~static_flat_map() = default;
     };
 }
 

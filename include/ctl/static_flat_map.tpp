@@ -30,7 +30,7 @@ namespace ctl {
     }
     
     template<typename KeyType, typename ValueType, std::size_t Size>
-    inline ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (KeyType key) {
+    inline ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) {
         auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
         
         if(foundKey != m_keys.end() && *foundKey == key) {
