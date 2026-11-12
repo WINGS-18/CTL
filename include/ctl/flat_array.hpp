@@ -17,8 +17,8 @@ namespace ctl {
         flat_array(std::size_t rows, std::size_t cols);
         flat_array(std::size_t rows, std::size_t cols, const T& completeInitialize);
         
-        T& operator() (std::size_t x, std::size_t y);
-        const T& operator() (std::size_t x, std::size_t y) const;
+        T& operator() (std::size_t row, std::size_t col);
+        const T& operator() (std::size_t row, std::size_t col) const;
 
         std::size_t rows() const noexcept;
         std::size_t columns() const noexcept;
@@ -29,7 +29,7 @@ namespace ctl {
         auto begin() const noexcept;
         auto end() const noexcept;
 
-        void fill(const T& data);
+        void fill(const T& data) noexcept;
 
     public:
         flat_array(const flat_array&) = default;

@@ -14,7 +14,7 @@ namespace ctl {
         for(const auto& row : list) {
             int j = 0;
             for(const auto& val : row) {
-                (*this)(j, i) = val;
+                (*this)(i, j) = val;
                 j++;
             }
             i++;
@@ -30,13 +30,13 @@ namespace ctl {
         : m_data(rows * cols, completeInitialize), m_rows(rows), m_cols(cols) {}
 
     template<typename T>
-    inline T& flat_array<T>::operator() (std::size_t x, std::size_t y) {
-        return m_data[(y * m_cols) + x];
+    inline T& flat_array<T>::operator() (std::size_t row, std::size_t col) {
+        return m_data[(row * m_cols) + col];
     }
 
     template<typename T>
-    inline const T& flat_array<T>::operator() (std::size_t x, std::size_t y) const{
-        return m_data[(y * m_cols) + x];
+    inline const T& flat_array<T>::operator() (std::size_t row, std::size_t col) const{
+        return m_data[(row * m_cols) + col];
     }
 
     template<typename T>
@@ -70,7 +70,7 @@ namespace ctl {
     }
 
     template<typename T>
-    void flat_array<T>::fill(const T& data) {
+    void flat_array<T>::fill(const T& data) noexcept {
         std::fill(begin(), end(), data);
     }
 
