@@ -51,15 +51,15 @@ int main() {
     ctl::table<int, std::string_view, 2, std::string_view, 3> t1(rowMap, colMap, std::move(data));
     // Row: "One"
     std::cout
-              << t1("One", "One")    << " "
-              << t1("One", "Two")    << " "
-              << t1("One", "Three")  << "\n";
+              << t1("Zero", "Zero")    << " "
+              << t1("Zero", "One")    << " "
+              << t1("Zero", "Two")  << "\n";
 
     // Row: "Two"
     std::cout
-              << t1("Two", "One")    << " "
-              << t1("Two", "Two")    << " "
-              << t1("Two", "Three")  << "\n";
+              << t1("One", "Zero")    << " "
+              << t1("One", "One")    << " "
+              << t1("One", "Two")  << "\n";
 
     // ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
     // ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
