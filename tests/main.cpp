@@ -42,30 +42,30 @@ int main() {
     // auto at = map.at(3);
     // std::cout << at.m_key << ", " << at.m_value;
 
-    // ctl::static_flat_map<std::string_view, std::size_t, 2> rowMap = { {"One", 1}, {"Two", 2}};
-    // ctl::static_flat_map<std::string_view, std::size_t, 3> colMap = { {"One", 1}, {"Two", 2}, {"Three", 3}};
-    // ctl::flat_array<int> data = {
-    //     {1, 2, 3}, {2, 4, 6}
-    // };
+    ctl::static_enum<std::string_view, 2, std::size_t> rowMap = {"Zero", "One"};
+    ctl::static_enum<std::string_view, 3, std::size_t> colMap = {"Zero", "One", "Two"};
+    ctl::flat_array<int> data = {
+        {1, 2, 3}, {2, 4, 6}
+    };
 
-    // ctl::table<int, std::string_view, 2, std::string_view, 3> t1(rowMap, colMap, std::move(data));
-    // // Row: "One"
-    // std::cout
-    //           << t1("One", "One")    << " "
-    //           << t1("One", "Two")    << " "
-    //           << t1("One", "Three")  << "\n";
+    ctl::table<int, std::string_view, 2, std::string_view, 3> t1(rowMap, colMap, std::move(data));
+    // Row: "One"
+    std::cout
+              << t1("One", "One")    << " "
+              << t1("One", "Two")    << " "
+              << t1("One", "Three")  << "\n";
 
-    // // Row: "Two"
-    // std::cout
-    //           << t1("Two", "One")    << " "
-    //           << t1("Two", "Two")    << " "
-    //           << t1("Two", "Three")  << "\n";
+    // Row: "Two"
+    std::cout
+              << t1("Two", "One")    << " "
+              << t1("Two", "Two")    << " "
+              << t1("Two", "Three")  << "\n";
 
-    ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
-    ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
+    // ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
+    // ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
 
-    std::cout << en["Four"];
-    std::cout << en2["Four"];
+    // std::cout << en["Four"];
+    // std::cout << en2["Four"];
 
     return 0;
 }

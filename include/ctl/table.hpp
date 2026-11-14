@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ctl/flat_array.hpp"
-#include "ctl/static_flat_map.hpp"
+#include "ctl/static_enum.hpp"
 
 namespace ctl {
 
@@ -9,14 +9,14 @@ namespace ctl {
     class table {
     private:
         flat_array<DataType> m_data;
-        static_flat_map<RowKey, std::size_t, RowSize> m_rowIndices;
-        static_flat_map<ColKey, std::size_t, ColSize> m_columnIndices;
+        static_enum<RowKey, RowSize, std::size_t> m_rowIndices;
+        static_enum<ColKey, ColSize, std::size_t> m_columnIndices;
 
     public:
-        table(static_flat_map<RowKey, std::size_t, RowSize> squareMap);
-        table(static_flat_map<RowKey, std::size_t, RowSize> squareMap, flat_array<DataType> data);
-        table(static_flat_map<RowKey, std::size_t, RowSize> rowIndices, static_flat_map<ColKey, std::size_t, ColSize> colIndices);
-        table(static_flat_map<RowKey, std::size_t, RowSize> rowIndices, static_flat_map<ColKey, std::size_t, ColSize> colIndices, flat_array<DataType> data);
+        table(static_enum<RowKey, RowSize, std::size_t> squareMap);
+        table(static_enum<RowKey, RowSize, std::size_t> squareMap, flat_array<DataType> data);
+        table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices);
+        table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices, flat_array<DataType> data);
 
         DataType& operator() (const RowKey& row, const ColKey& col);
     };

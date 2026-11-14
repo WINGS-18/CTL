@@ -4,19 +4,19 @@
 namespace ctl {
 
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
-    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_flat_map<RowKey, std::size_t, RowSize> sqaureMap) 
-        : m_data(RowSize, ColSize) , m_rowIndices(sqaureMap), m_columnIndices(sqaureMap) {}
+    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_enum<RowKey, RowSize, std::size_t> squareMap) 
+        : m_data(RowSize, ColSize) , m_rowIndices(squareMap), m_columnIndices(squareMap) {}
 
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
-    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_flat_map<RowKey, std::size_t, RowSize> sqaureMap, flat_array<DataType> data)
-        : m_data(data) , m_rowIndices(sqaureMap), m_columnIndices(sqaureMap) {}
+    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_enum<RowKey, RowSize, std::size_t> squareMap, flat_array<DataType> data)
+        : m_data(data) , m_rowIndices(squareMap), m_columnIndices(squareMap) {}
     
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
-    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_flat_map<RowKey, std::size_t, RowSize> rowIndices, static_flat_map<ColKey, std::size_t, ColSize> colIndices)
+    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices)
         : m_data(RowSize, ColSize), m_rowIndices(rowIndices), m_columnIndices(colIndices) {}
 
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
-    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_flat_map<RowKey, std::size_t, RowSize> rowIndices, static_flat_map<ColKey, std::size_t, ColSize> colIndices, flat_array<DataType> data)
+    table<DataType, RowKey, RowSize, ColKey, ColSize>::table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices, flat_array<DataType> data)
     : m_data(data), m_rowIndices(rowIndices), m_columnIndices(colIndices) {}
     
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
