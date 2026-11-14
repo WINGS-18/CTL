@@ -3,9 +3,11 @@
 #include "ctl/flat_string.hpp"
 #include "ctl/static_flat_map.hpp"
 #include "ctl/table.hpp"
+#include "ctl/static_enum.hpp"
 #include <string>
 #include <string_view>
 #include <iostream>
+#include <cstdint>
 
 int main() {
 //     // 1. Test ring_buffer
@@ -40,33 +42,30 @@ int main() {
     // auto at = map.at(3);
     // std::cout << at.m_key << ", " << at.m_value;
 
-    ctl::static_flat_map<std::string_view, std::size_t, 6> rowMap = {{"Zero", 0}, {"One", 1}, {"Two", 2}};
-    ctl::static_flat_map<std::string_view, std::size_t, 6> colMap = {{"Zero", 0}, {"One", 1}, {"Two", 2}, {"Three", 3}};
-    ctl::flat_array<int> data = {
-        {0, 0, 0, 0}, {0, 1, 2, 3}, {0, 2, 4, 6}
-    };
+    // ctl::static_flat_map<std::string_view, std::size_t, 2> rowMap = { {"One", 1}, {"Two", 2}};
+    // ctl::static_flat_map<std::string_view, std::size_t, 3> colMap = { {"One", 1}, {"Two", 2}, {"Three", 3}};
+    // ctl::flat_array<int> data = {
+    //     {1, 2, 3}, {2, 4, 6}
+    // };
 
-    ctl::table<int, std::string_view, 6> t1(rowMap, colMap, std::move(data));
-    t1("Zero", "Zero") = 6;
+    // ctl::table<int, std::string_view, 2, std::string_view, 3> t1(rowMap, colMap, std::move(data));
+    // // Row: "One"
+    // std::cout
+    //           << t1("One", "One")    << " "
+    //           << t1("One", "Two")    << " "
+    //           << t1("One", "Three")  << "\n";
 
-    // Row: "Zero"
-    std::cout << t1("Zero", "Zero")  << " "
-              << t1("Zero", "One")   << " "
-              << t1("Zero", "Two")   << " "
-              << t1("Zero", "Three") << "\n";
+    // // Row: "Two"
+    // std::cout
+    //           << t1("Two", "One")    << " "
+    //           << t1("Two", "Two")    << " "
+    //           << t1("Two", "Three")  << "\n";
 
-    // Row: "One"
-    std::cout << t1("One", "Zero")   << " "
-              << t1("One", "One")    << " "
-              << t1("One", "Two")    << " "
-              << t1("One", "Three")  << "\n";
+    ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
+    ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
 
-    // Row: "Two"
-    std::cout << t1("Two", "Zero")   << " "
-              << t1("Two", "One")    << " "
-              << t1("Two", "Two")    << " "
-              << t1("Two", "Three")  << "\n";
-
+    std::cout << en["Four"];
+    std::cout << en2["Four"];
 
     return 0;
 }
