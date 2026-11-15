@@ -1,4 +1,5 @@
 #include "ctl/flat_array.hpp"
+#include "ctl/core/assert.hpp"
 
 namespace ctl {
 
@@ -31,12 +32,18 @@ namespace ctl {
 
     template<typename T>
     inline T& flat_array<T>::operator() (std::size_t row, std::size_t col) {
-        return m_data[(row * m_cols) + col];
-    }
+        std::size_t index = (row * m_cols) + col;
+        CTL_ASSERT(index < (m_cols * m_cols), "index out of range");
 
+        return m_data[index];
+    }
+    
     template<typename T>
     inline const T& flat_array<T>::operator() (std::size_t row, std::size_t col) const{
-        return m_data[(row * m_cols) + col];
+        std::size_t index = (row * m_cols) + col;
+        CTL_ASSERT(index < (m_cols * m_cols), "index out of range");
+
+        return m_data[index];
     }
 
     template<typename T>

@@ -1,4 +1,5 @@
 #include "ctl/ring_buffer.hpp"
+#include "ctl/core/assert.hpp"
 
 namespace ctl {
 
@@ -39,12 +40,16 @@ namespace ctl {
     
     template<typename T>
     void ring_buffer<T>::releaseFront(std::size_t size) noexcept {
+        CTL_ASSERT(m_size > 0, "cannot erase from an empty container");
+        
         m_head = movePointers(m_head, size);
         m_size -= size;
     }
-
+    
     template<typename T>
     void ring_buffer<T>::releaseBack(std::size_t size) noexcept {
+        CTL_ASSERT(m_size > 0, "cannot erase from an empty container");
+
         if(m_tail != 0) {
             m_tail -= size;
             m_size -= size;
@@ -53,14 +58,13 @@ namespace ctl {
 
     template<typename T>
     void ring_buffer<T>::shrink(std::size_t size) noexcept {
-        if(size >= m_tail) {
-            return;
-        }
+        CTL_ASSERT(size >= m_tail, "buffer size is insufficient for shrink operation");
 
         if(size <= 0) {
             m_head = 0;
             m_tail = 0;
             m_size = 0;
+            return;
         }
         m_head = 0;
         m_tail = size;
@@ -122,12 +126,16 @@ namespace ctl {
     T& ring_buffer<T>::operator[] (std::size_t index) {
         auto usableIndex = (m_head + index) % m_data.size();
 
+        CTL_ASSERT(usableIndex < m_size, "index out of range");
+        
         return m_data[usableIndex];
     }
-
+    
     template<typename T>
     const T& ring_buffer<T>::operator[] (std::size_t index) const {
         auto usableIndex = (m_head + index) % m_data.size();
+
+        CTL_ASSERT(usableIndex < m_size, "index out of range");
         
         return m_data[usableIndex];
     }

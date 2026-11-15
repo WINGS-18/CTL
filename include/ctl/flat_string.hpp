@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ctl/core/assert.hpp"
 #include <string>
 
 namespace ctl {
@@ -32,6 +33,8 @@ namespace ctl {
     public:
         inline char& operator() (std::size_t row, std::size_t col) {
             return m_data[(row * (m_cols + 1)) + col];
+
+            CTL_PANIC("index out of range");
         }
     };
     

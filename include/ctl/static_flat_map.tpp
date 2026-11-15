@@ -1,10 +1,13 @@
 #include "ctl/static_flat_map.hpp"
+#include "ctl/core/assert.hpp"
 #include <algorithm>
 
 namespace ctl {
     
     template<typename KeyType, typename ValueType, std::size_t Size>
     constexpr static_flat_map<KeyType, ValueType, Size>::static_flat_map(std::initializer_list<pair> list) {
+        CTL_ASSERT(list.size() <= Size, "initializer_list size exceeds static storage capacity");
+
         std::size_t i = 0;
         m_size = Size;
         for(auto& couple : list) {
@@ -26,8 +29,10 @@ namespace ctl {
             return m_values[index];
         }
 
+        CTL_PANIC("Key not found");
+        
     }
-
+    
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline const ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) const{
         auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
@@ -37,22 +42,21 @@ namespace ctl {
             return m_values[index];
         }
         
+        CTL_PANIC("Key not found");
+        
     }
     
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline static_flat_map<KeyType, ValueType, Size>::pair static_flat_map<KeyType, ValueType, Size>::at(std::size_t index) {
-        
+        CTL_ASSERT(index < m_size, "index out of range");
         return {m_keys[index], m_values[index]};
     }
     
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline void static_flat_map<KeyType, ValueType, Size>::insert(const KeyType& key, const ValueType& val) {
+        CTL_ASSERT(m_size < Size, "cannot insert into a full container");
         
-        if(m_size >= Size) {
-            return;
-        }
         m_size++;
-        
         m_keys[m_size - 1] = key;
         m_values[m_size - 1] = val;
     }
