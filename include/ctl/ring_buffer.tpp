@@ -58,7 +58,7 @@ namespace ctl {
 
     template<typename T>
     void ring_buffer<T>::shrink(std::size_t size) noexcept {
-        CTL_ASSERT(size >= m_tail, "buffer size is insufficient for shrink operation");
+        CTL_ASSERT(size < m_tail, "buffer size is insufficient for shrink operation");
 
         if(size <= 0) {
             m_head = 0;
@@ -124,19 +124,17 @@ namespace ctl {
 
     template<typename T>
     T& ring_buffer<T>::operator[] (std::size_t index) {
-        auto usableIndex = (m_head + index) % m_data.size();
-
-        CTL_ASSERT(usableIndex < m_size, "index out of range");
+        CTL_ASSERT(index < m_size, "index out of range");
         
+        auto usableIndex = (m_head + index) % m_data.size();
         return m_data[usableIndex];
     }
     
     template<typename T>
     const T& ring_buffer<T>::operator[] (std::size_t index) const {
-        auto usableIndex = (m_head + index) % m_data.size();
-
-        CTL_ASSERT(usableIndex < m_size, "index out of range");
+        CTL_ASSERT(index < m_size, "index out of range");
         
+        auto usableIndex = (m_head + index) % m_data.size();
         return m_data[usableIndex];
     }
 

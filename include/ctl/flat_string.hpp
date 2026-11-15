@@ -26,15 +26,15 @@ namespace ctl {
             //loops through the buffer and inserts "\n" at exact end of the width sizes
             //it is indication that row ends.
             for(std::size_t i = 0; i < m_rows; i++) {
-                (*this)(i, m_cols) = '\n';
+                m_data[(i * (m_cols + 1)) + m_cols] = '\n';
             }
         }
 
     public:
         inline char& operator() (std::size_t row, std::size_t col) {
+            CTL_ASSERT(row < m_rows && col < m_cols, "index out of range");
+            
             return m_data[(row * (m_cols + 1)) + col];
-
-            CTL_PANIC("index out of range");
         }
     };
     

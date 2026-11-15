@@ -32,16 +32,16 @@ namespace ctl {
 
     template<typename T>
     inline T& flat_array<T>::operator() (std::size_t row, std::size_t col) {
+        CTL_ASSERT(row < m_rows && col < m_cols, "index out of range");
         std::size_t index = (row * m_cols) + col;
-        CTL_ASSERT(index < (m_cols * m_cols), "index out of range");
-
+        
         return m_data[index];
     }
     
     template<typename T>
     inline const T& flat_array<T>::operator() (std::size_t row, std::size_t col) const{
+        CTL_ASSERT(row < m_rows && col < m_cols, "index out of range");
         std::size_t index = (row * m_cols) + col;
-        CTL_ASSERT(index < (m_cols * m_cols), "index out of range");
 
         return m_data[index];
     }
