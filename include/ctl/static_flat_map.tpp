@@ -4,7 +4,7 @@
 namespace ctl {
     
     template<typename KeyType, typename ValueType, std::size_t Size>
-    static_flat_map<KeyType, ValueType, Size>::static_flat_map(std::initializer_list<pair> list) {
+    constexpr static_flat_map<KeyType, ValueType, Size>::static_flat_map(std::initializer_list<pair> list) {
         std::size_t i = 0;
         m_size = Size;
         for(auto& couple : list) {
@@ -13,7 +13,7 @@ namespace ctl {
             i++;
         }
         
-        sortStaticFlatMap();
+        sort();
 
     }
     
@@ -27,6 +27,7 @@ namespace ctl {
         }
 
     }
+
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline const ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) const{
         auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
@@ -57,11 +58,11 @@ namespace ctl {
     }
 
     template<typename KeyType, typename ValueType, std::size_t Size>
-    void static_flat_map<KeyType, ValueType, Size>::sortStaticFlatMap() {
+    constexpr void static_flat_map<KeyType, ValueType, Size>::sort() {
         auto tempKeys = m_keys;
         auto tempValues = m_values;
 
-        std::sort(m_keys.begin(), m_keys.end());
+        std::sort(m_keys.begin(), m_keys.begin() + m_size);
 
         for(std::size_t i = 0; i < tempKeys.size(); i++) {
             for(std::size_t j = 0; j < m_keys.size(); j++) {

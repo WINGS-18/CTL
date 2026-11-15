@@ -19,7 +19,7 @@ namespace ctl {
         
 
     public:
-        static_flat_map(std::initializer_list<pair> list);
+        constexpr static_flat_map(std::initializer_list<pair> list);
 
         inline ValueType& operator[] (const KeyType& key);
         inline const ValueType& operator[] (const KeyType& key) const;
@@ -27,7 +27,7 @@ namespace ctl {
 
         void insert(const KeyType& key, const ValueType& val);
 
-        void sortStaticFlatMap();
+        constexpr void sort();
 
     public:
         static_flat_map() = default;
