@@ -10,14 +10,14 @@ namespace ctl {
         static_flat_map<KeyType, ValueType, Size> m_data;
 
     public:
-        static_enum(std::initializer_list<KeyType> keys);
-        static_enum(std::initializer_list<KeyType> keys, ValueType startingValue);
+        constexpr static_enum(std::initializer_list<KeyType> keys);
+        constexpr static_enum(std::initializer_list<KeyType> keys, ValueType startingValue);
 
         inline ValueType& operator[] (const KeyType& key);
         inline const ValueType& operator[] (const KeyType& key) const;
 
     private:
-        static_flat_map<KeyType, ValueType, Size> initialize(std::initializer_list<KeyType> keys, ValueType startingValue);
+        constexpr static_flat_map<KeyType, ValueType, Size> initialize(std::initializer_list<KeyType> keys, ValueType startingValue);
 
     public:
         static_enum() = default;
