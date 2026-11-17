@@ -20,8 +20,44 @@ namespace ctl {
     : m_data(data), m_rowIndices(rowIndices), m_columnIndices(colIndices) {}
     
     template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
-    DataType& table<DataType, RowKey, RowSize, ColKey, ColSize>::operator() (const RowKey& row, const ColKey& col) {
+    DataType& table<DataType, RowKey, RowSize, ColKey, ColSize>::operator() (const RowKey& row, const ColKey& col) noexcept {
         return m_data(m_rowIndices[row], m_columnIndices[col]);
     }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    const DataType& table<DataType, RowKey, RowSize, ColKey, ColSize>::operator() (const RowKey& row, const ColKey& col) const noexcept {
+        return m_data(m_rowIndices[row], m_columnIndices[col]);
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    DataType& table<DataType, RowKey, RowSize, ColKey, ColSize>::operator() (std::size_t row, std::size_t col) noexcept {
+        return m_data(row, col);
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    const DataType& table<DataType, RowKey, RowSize, ColKey, ColSize>::operator() (std::size_t row, std::size_t col) const noexcept {
+        return m_data(row, col);
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    std::size_t table<DataType, RowKey, RowSize, ColKey, ColSize>::rows() const noexcept {
+        return m_data.rows();
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    std::size_t table<DataType, RowKey, RowSize, ColKey, ColSize>::columns() const noexcept {
+        return m_data.columns();
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    std::size_t table<DataType, RowKey, RowSize, ColKey, ColSize>::size() const noexcept {
+        return RowSize * ColSize;
+    }
+
+    template<typename DataType, typename RowKey, std::size_t RowSize, typename ColKey, std::size_t ColSize>
+    void table<DataType, RowKey, RowSize, ColKey, ColSize>::fill(const DataType& data) noexcept {
+        m_data.fill(data);
+    }
+
 
 }

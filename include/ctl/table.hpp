@@ -18,7 +18,17 @@ namespace ctl {
         table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices);
         table(static_enum<RowKey, RowSize, std::size_t> rowIndices, static_enum<ColKey, ColSize, std::size_t> colIndices, flat_array<DataType> data);
 
-        DataType& operator() (const RowKey& row, const ColKey& col);
+        DataType& operator() (const RowKey& row, const ColKey& col) noexcept;
+        const DataType& operator() (const RowKey& row, const ColKey& col) const noexcept;
+
+        DataType& operator() (std::size_t row, std::size_t col) noexcept;
+        const DataType& operator() (std::size_t row, std::size_t col) const noexcept;
+
+        std::size_t rows() const noexcept;
+        std::size_t columns() const noexcept;
+        std::size_t size() const noexcept;
+
+        void fill(const DataType& data) noexcept;
     };
 
 }
