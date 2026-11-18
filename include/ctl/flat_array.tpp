@@ -81,4 +81,9 @@ namespace ctl {
         std::fill(begin(), end(), data);
     }
 
+    template<typename T>
+    void flat_array<T>::clear() noexcept {
+        m_data.clear();
+    }
+
 }

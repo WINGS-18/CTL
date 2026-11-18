@@ -30,6 +30,7 @@ namespace ctl {
         auto end() const noexcept;
 
         void fill(const T& data) noexcept;
+        void clear() noexcept;
 
     public:
         flat_array(const flat_array&) = default;
