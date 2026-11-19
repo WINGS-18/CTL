@@ -29,6 +29,10 @@ namespace ctl {
 
         constexpr void sort();
 
+        bool empty() const noexcept;
+        std::size_t size() const noexcept;
+        std::size_t capacity() const noexcept;
+
     public:
         static_flat_map() = default;
         static_flat_map(const static_flat_map&) = default;

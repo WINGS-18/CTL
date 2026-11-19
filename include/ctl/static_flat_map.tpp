@@ -78,5 +78,22 @@ namespace ctl {
         }
     }
 
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    bool static_flat_map<KeyType, ValueType, Size>::empty() const noexcept {
+        if(m_size == 0) {
+            return true;
+        }
 
+        return false;
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    std::size_t static_flat_map<KeyType, ValueType, Size>::size() const noexcept {
+        return m_size;
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    std::size_t static_flat_map<KeyType, ValueType, Size>::capacity() const noexcept {
+        return Size;
+    }
 }
