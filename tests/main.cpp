@@ -36,15 +36,19 @@ int main() {
     //     std::cout << std::endl;
     // }
 
-    ctl::static_flat_map<std::string, int, 5> map = {{"A", 1}, {"C", 4}, {"D", 3}, {"B", 68}, {"AA", 33}};
-    std::cout << map["A"];
+    // ctl::static_flat_map<std::string, int, 7> map = {{"A", 1}, {"C", 4}, {"D", 3}, {"B", 68}, {"AA", 33}};
+    // std::cout << map["A"] << "\n";
+    // map["H"] = 6;
+    // map["J"] = 6;
+    // std::cout << map["H"] << "\n";
+    // std::cout << map["J"];
 
-    auto at = map.at(2);
-    std::cout << at.m_key << ", " << at.m_value << std::endl;
+    // auto at = map.at("K");
+    // std::cout << "H" << ", " << at << std::endl;
 
-    std::cout << "cap: " << map.capacity() << std::endl;
-    std::cout << "empty: " << map.empty() << std::endl;
-    std::cout << "size: " << map.size() << std::endl;
+    // std::cout << "cap: " << map.capacity() << std::endl;
+    // std::cout << "empty: " << map.empty() << std::endl;
+    // std::cout << "size: " << map.size() << std::endl;
     
     // ctl::static_enum<std::string_view, 2, std::size_t> rowMap = {"Zero", "One"};
     // ctl::static_enum<std::string_view, 3, std::size_t> colMap = {"Zero", "One", "Two"};
@@ -65,11 +69,11 @@ int main() {
     //           << t1("One", "One")    << " "
     //           << t1("One", "Two")  << "\n";
 
-    // ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
-    // ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
+    ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
+    ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
 
-    // std::cout << en["Four"];
-    // std::cout << en2["Four"];
+    std::cout << en["Four"];
+    std::cout << en2["Four"];
 
     // t1("five", "One");
     // nums(5, 6); //error
