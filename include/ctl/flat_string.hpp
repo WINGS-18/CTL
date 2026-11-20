@@ -36,6 +36,18 @@ namespace ctl {
             
             return m_data[(row * (m_cols + 1)) + col];
         }
+
+        std::size_t rows() const noexcept {
+            return m_rows;
+        }
+
+        std::size_t columns() const noexcept {
+            return m_cols;
+        }
+
+        std::size_t capacity() const noexcept {
+            return m_rows * m_cols;
+        }
     };
     
 }
