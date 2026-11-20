@@ -22,16 +22,21 @@ namespace ctl {
         constexpr static_flat_map(std::initializer_list<pair> list);
 
         inline ValueType& operator[] (const KeyType& key);
-        inline const ValueType& operator[] (const KeyType& key) const;
-        inline pair at(std::size_t index);
+        inline const ValueType& operator[] (const KeyType& key) const noexcept;
+        inline ValueType& at(const KeyType& key);
+        inline ValueType& at(const KeyType& key) const noexcept;
 
         void insert(const KeyType& key, const ValueType& val);
+        void unsortedInsert(const KeyType& key, const ValueType& val);
 
         constexpr void sort();
 
         bool empty() const noexcept;
         std::size_t size() const noexcept;
         std::size_t capacity() const noexcept;
+
+    private:
+        auto find(const KeyType& key) const noexcept;
 
     public:
         static_flat_map() = default;

@@ -9,7 +9,7 @@ namespace ctl {
         CTL_ASSERT(list.size() <= Size, "initializer_list size exceeds static storage capacity");
 
         std::size_t i = 0;
-        m_size = Size;
+        m_size = list.size();
         for(auto& couple : list) {
             m_keys[i] = couple.m_key;
             m_values[i] = couple.m_value;
@@ -22,38 +22,63 @@ namespace ctl {
     
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) {
-        auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
+        auto endIt = m_keys.begin() + m_size;
+
+        auto foundKey = find(key);
         
-        if(foundKey != m_keys.end() && *foundKey == key) {
+        if(foundKey != endIt) {
+            int index = foundKey - m_keys.begin();
+            return m_values[index];
+        }
+
+        if(m_size < capacity()) {
+            insert(key, ValueType{});
+            return (*this)[key];
+        }
+
+        CTL_PANIC("cannot insert max capcity reached container");
+        
+    }
+    
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    inline const ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) const noexcept {
+        auto endIt = m_keys.begin() + m_size;
+
+        auto foundKey = find(key);
+        if(foundKey != endIt) {
+            int index = foundKey - m_keys.begin();
+            return m_values[index];
+        }
+        
+        CTL_PANIC("Key not found");
+        
+    }
+    
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    inline ValueType& static_flat_map<KeyType, ValueType, Size>::at(const KeyType& key) {
+        auto foundKey = find(key);
+        auto endIt = m_keys.begin() + m_size;
+
+        if(foundKey != endIt) {
             int index = foundKey - m_keys.begin();
             return m_values[index];
         }
 
         CTL_PANIC("Key not found");
-        
-    }
-    
-    template<typename KeyType, typename ValueType, std::size_t Size>
-    inline const ValueType& static_flat_map<KeyType, ValueType, Size>::operator[] (const KeyType& key) const{
-        auto foundKey = std::lower_bound(m_keys.begin(), m_keys.end(), key);
-        
-        if(foundKey != m_keys.end() && *foundKey == key) {
-            int index = foundKey - m_keys.begin();
-            return m_values[index];
-        }
-        
-        CTL_PANIC("Key not found");
-        
-    }
-    
-    template<typename KeyType, typename ValueType, std::size_t Size>
-    inline static_flat_map<KeyType, ValueType, Size>::pair static_flat_map<KeyType, ValueType, Size>::at(std::size_t index) {
-        CTL_ASSERT(index < m_size, "index out of range");
-        return {m_keys[index], m_values[index]};
     }
     
     template<typename KeyType, typename ValueType, std::size_t Size>
     inline void static_flat_map<KeyType, ValueType, Size>::insert(const KeyType& key, const ValueType& val) {
+        CTL_ASSERT(m_size < Size, "cannot insert into a full container");
+        
+        m_size++;
+        m_keys[m_size - 1] = key;
+        m_values[m_size - 1] = val;
+        sort();
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    inline void static_flat_map<KeyType, ValueType, Size>::unsortedInsert(const KeyType& key, const ValueType& val) {
         CTL_ASSERT(m_size < Size, "cannot insert into a full container");
         
         m_size++;
@@ -95,5 +120,18 @@ namespace ctl {
     template<typename KeyType, typename ValueType, std::size_t Size>
     std::size_t static_flat_map<KeyType, ValueType, Size>::capacity() const noexcept {
         return Size;
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    auto static_flat_map<KeyType, ValueType, Size>::find(const KeyType& key) const noexcept {
+        auto endIt = m_keys.begin() + m_size;
+        auto foundKey = std::lower_bound(m_keys.begin(), endIt, key);
+        
+        if(foundKey != endIt && *foundKey == key) {
+            return foundKey;
+        }
+
+        return endIt;
+
     }
 }
