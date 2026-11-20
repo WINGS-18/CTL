@@ -68,6 +68,19 @@ namespace ctl {
     }
     
     template<typename KeyType, typename ValueType, std::size_t Size>
+    inline const ValueType& static_flat_map<KeyType, ValueType, Size>::at(const KeyType& key) const noexcept {
+        auto foundKey = find(key);
+        auto endIt = m_keys.begin() + m_size;
+
+        if(foundKey != endIt) {
+            int index = foundKey - m_keys.begin();
+            return m_values[index];
+        }
+
+        CTL_PANIC("Key not found");
+    }
+    
+    template<typename KeyType, typename ValueType, std::size_t Size>
     inline void static_flat_map<KeyType, ValueType, Size>::insert(const KeyType& key, const ValueType& val) {
         CTL_ASSERT(m_size < Size, "cannot insert into a full container");
         

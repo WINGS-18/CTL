@@ -4,7 +4,7 @@
 
 namespace ctl {
 
-    template<typename KeyType, std::size_t Size, std::integral ValueType = int>
+    template<typename KeyType, std::size_t Size, std::integral ValueType>
     class static_enum {
     private:
         static_flat_map<KeyType, ValueType, Size> m_data;

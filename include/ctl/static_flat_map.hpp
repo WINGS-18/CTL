@@ -4,6 +4,9 @@
 
 namespace ctl {
 
+    template<typename KeyType, std::size_t Size, std::integral ValueType = int>
+    class static_enum;
+    
     template<typename KeyType, typename ValueType, std::size_t Size>
     class static_flat_map {
     private:
@@ -20,33 +23,36 @@ namespace ctl {
 
     public:
         constexpr static_flat_map(std::initializer_list<pair> list);
-
+        
         inline ValueType& operator[] (const KeyType& key);
         inline const ValueType& operator[] (const KeyType& key) const noexcept;
         inline ValueType& at(const KeyType& key);
-        inline ValueType& at(const KeyType& key) const noexcept;
+        inline const ValueType& at(const KeyType& key) const noexcept;
 
         void insert(const KeyType& key, const ValueType& val);
-        void unsortedInsert(const KeyType& key, const ValueType& val);
-
-        constexpr void sort();
-
+        
         bool empty() const noexcept;
         std::size_t size() const noexcept;
         std::size_t capacity() const noexcept;
-
+        
     private:
         auto find(const KeyType& key) const noexcept;
-
+        constexpr void sort();
+        void unsortedInsert(const KeyType& key, const ValueType& val);
+        
     public:
         static_flat_map() = default;
         static_flat_map(const static_flat_map&) = default;
         static_flat_map& operator= (const static_flat_map&) = default;
-    
+        
         static_flat_map(static_flat_map&&) = default;
         static_flat_map& operator= (static_flat_map&&) = default;
     
         ~static_flat_map() = default;
+
+    private:
+        friend class static_enum<KeyType, Size, ValueType>;
+        friend class static_enum<KeyType, Size>;
     };
 }
 
