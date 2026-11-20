@@ -24,7 +24,7 @@ namespace ctl {
     constexpr static_flat_map<KeyType, ValueType, Size> static_enum<KeyType, Size, ValueType>::initialize(std::initializer_list<KeyType> keys, ValueType startingValue) {
         static_flat_map<KeyType, ValueType, Size> map;
         for(const auto& key : keys) {
-            map.insert(key, startingValue++);
+            map.unsortedInsert(key, startingValue++);
         }
 
         map.sort();
