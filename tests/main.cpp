@@ -36,14 +36,17 @@ int main() {
     //     std::cout << std::endl;
     // }
 
-    // ctl::static_flat_map<std::string, int, 7> map = {{"A", 1}, {"C", 4}, {"D", 3}, {"B", 68}, {"AA", 33}};
+    // ctl::static_flat_map<std::string, int, 8> map = {{"A", 1}, {"C", 4}, {"D", 3}, {"B", 68}, {"AA", 33}};
     // std::cout << map["A"] << "\n";
     // map["H"] = 6;
-    // map["J"] = 6;
+    // //map["J"] = 6;
     // std::cout << map["H"] << "\n";
-    // std::cout << map["J"];
+    // std::cout << map["J"] << "\n";
+    
+    // map.insert("F", 15);
+    // std::cout << map["F"];
 
-    // auto at = map.at("K");
+    // auto at = map.at("H");
     // std::cout << "H" << ", " << at << std::endl;
 
     // std::cout << "cap: " << map.capacity() << std::endl;
