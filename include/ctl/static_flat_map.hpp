@@ -36,6 +36,9 @@ namespace ctl {
         std::size_t capacity() const noexcept;
         
     private:
+        auto lowerBound(const KeyType& key);
+        auto lowerBound(const KeyType& key)const noexcept;
+        auto find(const KeyType& key) noexcept;
         auto find(const KeyType& key) const noexcept;
         constexpr void sort();
         void unsortedInsert(const KeyType& key, const ValueType& val);
