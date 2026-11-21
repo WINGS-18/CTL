@@ -35,6 +35,7 @@ namespace ctl {
     std::size_t ring_buffer<T>::movePointers(std::size_t pointer, std::size_t size) noexcept {
         pointer = (pointer + size) % (m_data.size());   //increases the volume of the valid range (tail -> head).
 
+
         return pointer;
     }
     
@@ -49,17 +50,17 @@ namespace ctl {
     template<typename T>
     void ring_buffer<T>::releaseBack(std::size_t size) noexcept {
         CTL_ASSERT(m_size > 0, "cannot erase from an empty container");
-
+        
         if(m_tail != 0) {
             m_tail -= size;
             m_size -= size;
         }
     }
-
+    
     template<typename T>
     void ring_buffer<T>::shrink(std::size_t size) noexcept {
-        CTL_ASSERT(size < m_tail, "buffer size is insufficient for shrink operation");
-
+        CTL_ASSERT(size <= m_size, "buffer size is insufficient for shrink operation");
+        
         if(size <= 0) {
             m_head = 0;
             m_tail = 0;
@@ -70,19 +71,19 @@ namespace ctl {
         m_tail = size;
         m_size = size;
     }
-
+    
     template<typename T>
     void ring_buffer<T>::reserveBack(std::size_t size) noexcept {
         m_tail = movePointers(m_tail, size);
         m_size += size;
     }
-
+    
     template<typename T>
     void ring_buffer<T>::pushPrimitive(T data) noexcept {
         m_data[m_tail] = data;
         reserveBack(1);
     }
-
+    
     template<typename T>
     void ring_buffer<T>::push(const T& data) noexcept {
         m_data[m_tail] = data;
@@ -94,12 +95,12 @@ namespace ctl {
         m_data[m_tail] = std::move(data);
         reserveBack(1);
     }
-
+    
     template<typename T>
     void ring_buffer<T>::pop() noexcept {
         releaseFront(1);
     }
-
+    
     template<typename T>
     void ring_buffer<T>::clear() noexcept {
         m_head = 0;
@@ -114,12 +115,14 @@ namespace ctl {
 
     template<typename T>
     inline int ring_buffer<T>::head() const noexcept {
-        return m_head;
+        return 0;
     }
 
     template<typename T>
     inline int ring_buffer<T>::tail() const noexcept {
-        return m_tail - m_head - 1;
+        if(m_size == 0) return 0;
+
+        return static_cast<int> (m_size - 1);
     }
 
     template<typename T>
