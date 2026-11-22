@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <span>
 
 namespace ctl {
 
@@ -36,6 +37,8 @@ namespace ctl {
         std::size_t capacity() const noexcept;
 
         bool contains(const KeyType& key) noexcept;
+
+        std::span<const KeyType> keys() const noexcept;
         
     private:
         auto lowerBound(const KeyType& key);

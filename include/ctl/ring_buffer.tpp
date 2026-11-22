@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ctl/ring_buffer.hpp"
 #include "ctl/core/assert.hpp"
 

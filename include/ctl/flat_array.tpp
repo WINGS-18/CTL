@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ctl/flat_array.hpp"
 #include "ctl/core/assert.hpp"
 

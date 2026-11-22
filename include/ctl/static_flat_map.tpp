@@ -1,7 +1,8 @@
+#pragma once
+
 #include "ctl/static_flat_map.hpp"
 #include "ctl/core/assert.hpp"
 #include <algorithm>
-#include <span>
 
 namespace ctl {
     
@@ -161,6 +162,11 @@ namespace ctl {
         auto endIt = m_keys.begin() + m_size;
 
         return find(key) != endIt;
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
+    std::span<const KeyType> static_flat_map<KeyType, ValueType, Size>::keys() const noexcept {
+        return {m_keys.data(), m_size};
     }
 
     template<typename KeyType, typename ValueType, std::size_t Size>

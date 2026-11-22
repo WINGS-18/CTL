@@ -1,5 +1,6 @@
+#pragma once
+
 #include "ctl/table.hpp"
-#include <iostream>
 
 namespace ctl {
 

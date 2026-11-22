@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ctl/static_enum.hpp"
 
 namespace ctl {
