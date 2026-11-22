@@ -34,6 +34,8 @@ namespace ctl {
         bool empty() const noexcept;
         std::size_t size() const noexcept;
         std::size_t capacity() const noexcept;
+
+        bool contains(const KeyType& key) noexcept;
         
     private:
         auto lowerBound(const KeyType& key);

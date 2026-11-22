@@ -157,6 +157,13 @@ namespace ctl {
     }
 
     template<typename KeyType, typename ValueType, std::size_t Size>
+    bool static_flat_map<KeyType, ValueType, Size>::contains(const KeyType& key) noexcept {
+        auto endIt = m_keys.begin() + m_size;
+
+        return find(key) != endIt;
+    }
+
+    template<typename KeyType, typename ValueType, std::size_t Size>
     auto static_flat_map<KeyType, ValueType, Size>::lowerBound(const KeyType& key) {
         return std::lower_bound(m_keys.begin(), m_keys.begin() + m_size, key);
     }
