@@ -86,6 +86,8 @@ namespace ctl {
     template<typename T>
     void flat_array<T>::clear() noexcept {
         m_data.clear();
+        m_rows = 0;
+        m_cols = 0;
     }
 
 }
