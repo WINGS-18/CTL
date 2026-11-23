@@ -1,11 +1,13 @@
 #pragma once
 
 #include <array>
+#include <concepts>
+#include <cstddef>
 #include <span>
 
 namespace ctl {
 
-    template<typename KeyType, std::size_t Size, std::integral ValueType = int>
+    template<typename, std::size_t, std::integral>
     class static_enum;
     
     template<typename KeyType, typename ValueType, std::size_t Size>
@@ -59,8 +61,8 @@ namespace ctl {
         ~static_flat_map() = default;
 
     private:
-        friend class static_enum<KeyType, Size, ValueType>;
-        friend class static_enum<KeyType, Size>;
+        template<typename, std::size_t, std::integral>
+        friend class static_enum;
     };
 }
 
