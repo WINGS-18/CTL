@@ -4,6 +4,8 @@
 #include "ctl/static_flat_map.hpp"
 #include "ctl/table.hpp"
 #include "ctl/static_enum.hpp"
+#include <cstddef>
+#include <ostream>
 #include <string>
 #include <string_view>
 #include <iostream>
@@ -72,14 +74,44 @@ int main() {
     //           << t1("One", "One")    << " "
     //           << t1("One", "Two")  << "\n";
 
-    ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
-    ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
+    // ctl::static_enum<std::string_view, 5> en = {"Zero", "One", "Two", "Three", "Four"};
+    // ctl::static_enum<std::string_view, 5> en2({"Zero", "One", "Two", "Three", "Four"}, 5);
 
-    std::cout << en["Four"];
-    std::cout << en2["Four"];
+    // std::cout << en["Four"];
+    // std::cout << en2["Four"];
 
     // t1("five", "One");
     // nums(5, 6); //error
+
+    ctl::ring_buffer<int> nums(5);
+
+    nums.push(1);
+    nums.push(2);
+    nums.push(3);
+    // nums.push(4);
+    // nums.push(5);
+
+    for(std::size_t i = 0; i < nums.size(); i++) {
+        std::cout << nums[i] << ", ";
+    }
+    std::cout << std::endl;
+    
+    nums.pop();
+    nums.pop();
+    nums.push(7);
+    nums.push(8);
+    // nums.pop();
+    // nums.pop();
+    // for(std::size_t i = 0; i < nums.size(); i++) {
+    //     std::cout << nums[i] << ", ";
+    // }
+    // std::cout << std::endl;
+
+    std::cout << nums.front() << "\n";
+    
+    int& val = nums.emplace_back();
+    val = 10;
+    std::cout << nums.back() << "\n";
 
     return 0;
 }
