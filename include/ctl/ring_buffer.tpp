@@ -6,12 +6,8 @@
 namespace ctl {
 
     template<typename T>
-    ring_buffer<T>::ring_buffer(std::size_t reserveSize)
-        : m_data(reserveSize), m_head(0), m_tail(0), m_size(0) {}
-
-    template<typename T>
-    ring_buffer<T>::ring_buffer(std::size_t initSize, std::size_t reserveSize)
-        : m_data(reserveSize), m_head(0), m_tail(static_cast<int> (initSize)), m_size(initSize) {}
+    ring_buffer<T>::ring_buffer(std::size_t capacity)
+        : m_data(capacity), m_capacity(capacity) {}
 
     template<typename T>
     std::vector<T>& ring_buffer<T>::getData() noexcept {
@@ -30,77 +26,74 @@ namespace ctl {
 
     template<typename T>
     std::size_t ring_buffer<T>::capacity() const noexcept {
-        return m_data.capacity();
-    }
-
-    template<typename T>
-    std::size_t ring_buffer<T>::movePointers(std::size_t pointer, std::size_t size) noexcept {
-        pointer = (pointer + size) % (m_data.size());   //increases the volume of the valid range (tail -> head).
-
-
-        return pointer;
-    }
-    
-    template<typename T>
-    void ring_buffer<T>::releaseFront(std::size_t size) noexcept {
-        CTL_ASSERT(m_size > 0, "cannot erase from an empty container");
-        
-        m_head = movePointers(m_head, size);
-        m_size -= size;
-    }
-    
-    template<typename T>
-    void ring_buffer<T>::releaseBack(std::size_t size) noexcept {
-        CTL_ASSERT(m_size > 0, "cannot erase from an empty container");
-        
-        if(m_tail != 0) {
-            m_tail -= size;
-            m_size -= size;
-        }
-    }
-    
-    template<typename T>
-    void ring_buffer<T>::shrink(std::size_t size) noexcept {
-        CTL_ASSERT(size <= m_size, "buffer size is insufficient for shrink operation");
-        
-        if(size <= 0) {
-            m_head = 0;
-            m_tail = 0;
-            m_size = 0;
-            return;
-        }
-        m_head = 0;
-        m_tail = size;
-        m_size = size;
-    }
-    
-    template<typename T>
-    void ring_buffer<T>::reserveBack(std::size_t size) noexcept {
-        m_tail = movePointers(m_tail, size);
-        m_size += size;
-    }
-    
-    template<typename T>
-    void ring_buffer<T>::pushPrimitive(T data) noexcept {
-        m_data[m_tail] = data;
-        reserveBack(1);
+        return m_capacity;
     }
     
     template<typename T>
     void ring_buffer<T>::push(const T& data) noexcept {
+        CTL_ASSERT(m_size < m_capacity, "cannot push into a full container");
+        
         m_data[m_tail] = data;
-        reserveBack(1);
+        
+        m_tail = (m_tail + 1) % m_capacity;
+        ++m_size;
     }
-
+    
     template<typename T>
     void ring_buffer<T>::push(T&& data) noexcept {
+        CTL_ASSERT(m_size < m_capacity, "cannot push into a full container");
+        
         m_data[m_tail] = std::move(data);
-        reserveBack(1);
+        
+        m_tail = (m_tail + 1) % m_capacity;
+        ++m_size;
+    }
+    
+    template<typename T>
+    T& ring_buffer<T>::emplace_back() noexcept {
+        CTL_ASSERT(m_size < m_capacity, "emplace_back() called on full container");
+
+        T& data = m_data[m_tail];
+        m_tail = (m_tail + 1) % m_capacity;
+        ++m_size;
+
+        return data;
     }
     
     template<typename T>
     void ring_buffer<T>::pop() noexcept {
-        releaseFront(1);
+        CTL_ASSERT(m_size > 0, "cannot pop into a full container");
+
+        m_head = (m_head + 1) % m_capacity;
+        --m_size;
+    }
+
+    template<typename T>
+    T& ring_buffer<T>::front() noexcept {
+        CTL_ASSERT(m_size > 0, "front() called on empty container");
+        
+        return m_data[m_head];
+    }
+    
+    template<typename T>
+    T& ring_buffer<T>::front() const noexcept {
+        CTL_ASSERT(m_size > 0, "front() called on empty container");
+        
+        return m_data[m_head];
+    }
+    
+    template<typename T>
+    T& ring_buffer<T>::back() noexcept {
+        CTL_ASSERT(m_size > 0, "back() called on empty container");
+
+        return (*this)[m_size - 1];
+    }
+    
+    template<typename T>
+    T& ring_buffer<T>::back() const noexcept {
+        CTL_ASSERT(m_size > 0, "back() called on empty container");
+
+        return (*this)[m_size - 1];
     }
     
     template<typename T>
@@ -116,31 +109,19 @@ namespace ctl {
     }
 
     template<typename T>
-    inline int ring_buffer<T>::head() const noexcept {
-        return 0;
-    }
-
-    template<typename T>
-    inline int ring_buffer<T>::tail() const noexcept {
-        if(m_size == 0) return 0;
-
-        return static_cast<int> (m_size - 1);
-    }
-
-    template<typename T>
     T& ring_buffer<T>::operator[] (std::size_t index) {
         CTL_ASSERT(index < m_size, "index out of range");
         
-        auto usableIndex = (m_head + index) % m_data.size();
-        return m_data[usableIndex];
+        auto logicalIndex = (m_head + index) % m_capacity;
+        return m_data[logicalIndex];
     }
     
     template<typename T>
     const T& ring_buffer<T>::operator[] (std::size_t index) const {
         CTL_ASSERT(index < m_size, "index out of range");
         
-        auto usableIndex = (m_head + index) % m_data.size();
-        return m_data[usableIndex];
+        auto logicalIndex = (m_head + index) % m_capacity;
+        return m_data[logicalIndex];
     }
 
 }

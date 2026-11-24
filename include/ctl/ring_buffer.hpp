@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <vector>
 
 namespace ctl {
@@ -13,31 +14,31 @@ namespace ctl {
     class ring_buffer {
     private:
         std::vector<T> m_data;
-        std::size_t m_head, m_tail;
-        std::size_t m_size = 0;
+        std::size_t m_head {0};
+        std::size_t m_tail {0};
+        std::size_t m_size {0};
+        std::size_t m_capacity {0};
 
     public:
-        ring_buffer(std::size_t reserveSize);
-        ring_buffer(std::size_t initSize, std::size_t reserveSize);
+        ring_buffer(std::size_t capacity);
 
         std::size_t size() const noexcept;
         std::size_t capacity() const noexcept;
         
-        std::size_t movePointers(std::size_t pointer, std::size_t size) noexcept;
-        void reserveBack(std::size_t size) noexcept;
-        void releaseFront(std::size_t size) noexcept;
-        void releaseBack(std::size_t size) noexcept;
-        void shrink(std::size_t size) noexcept;
-        
-        void pushPrimitive(T data) noexcept;
         void push(const T& data) noexcept;
         void push(T&& data) noexcept;
+        
+        T& emplace_back() noexcept;
+
         void pop() noexcept;
+
+        T& front() noexcept;
+        T& front() const noexcept;
+        T& back() noexcept;
+        T& back() const noexcept;
+
         void clear() noexcept;
         bool empty() const noexcept;
-        
-        int head() const noexcept;
-        int tail() const noexcept;
 
         std::vector<T>& getData() noexcept;
         const std::vector<T>& getData() const noexcept;
