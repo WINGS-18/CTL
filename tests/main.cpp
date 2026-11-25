@@ -113,5 +113,9 @@ int main() {
     val = 10;
     std::cout << nums.back() << "\n";
 
+    const int& va = nums.back();
+
+    std::cout << va;
+
     return 0;
 }
