@@ -62,7 +62,7 @@ namespace ctl {
     
     template<typename T>
     void ring_buffer<T>::pop() noexcept {
-        CTL_ASSERT(m_size > 0, "cannot pop into a full container");
+        CTL_ASSERT(m_size > 0, "cannot pop into a empty container");
 
         m_head = (m_head + 1) % m_capacity;
         --m_size;
@@ -76,7 +76,7 @@ namespace ctl {
     }
     
     template<typename T>
-    T& ring_buffer<T>::front() const noexcept {
+    const T& ring_buffer<T>::front() const noexcept {
         CTL_ASSERT(m_size > 0, "front() called on empty container");
         
         return m_data[m_head];
@@ -90,7 +90,7 @@ namespace ctl {
     }
     
     template<typename T>
-    T& ring_buffer<T>::back() const noexcept {
+    const T& ring_buffer<T>::back() const noexcept {
         CTL_ASSERT(m_size > 0, "back() called on empty container");
 
         return (*this)[m_size - 1];

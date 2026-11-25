@@ -33,9 +33,9 @@ namespace ctl {
         void pop() noexcept;
 
         T& front() noexcept;
-        T& front() const noexcept;
+        const T& front() const noexcept;
         T& back() noexcept;
-        T& back() const noexcept;
+        const T& back() const noexcept;
 
         void clear() noexcept;
         bool empty() const noexcept;
